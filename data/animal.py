@@ -34,6 +34,14 @@ def read_all_animals():
         reader = csv.DictReader(csvfile, fieldnames=column_fields)
         return [AnimalBase(**row) for row in reader]
 
+def read_one_animal_by_id(animal_id: str):
+    with open(data_base) as csvfile:
+        reader = csv.DictReader(csvfile, fieldnames=column_fields)
+        for row in reader:
+            if row["id"] == animal_id:
+                return AnimalBase(**row)
+        return None
+
 
 
 

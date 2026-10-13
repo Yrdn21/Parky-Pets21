@@ -30,6 +30,7 @@ def show_all_animals():
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=AnimalBase)
 def show_one_animal(id: str):
+    '''
     if not animals_list:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No animal found")
     else:
@@ -37,6 +38,12 @@ def show_one_animal(id: str):
             if animal.id == id:
                 return animal
         return None
+    '''
+    one_animal = animal.read_one_animal_by_id(id)
+    if not one_animal:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No animal found")
+    else:
+        return one_animal
 
 @router.patch("/{id}", status_code=status.HTTP_200_OK, response_model=AnimalBase)
 def update_animal_status(id: str, new_status: AnimalStatusUpdate):
