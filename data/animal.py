@@ -16,7 +16,7 @@ column_fields = [
 
 def auto_id():
     try:
-        with open(data_base, mode="r") as csvfile:
+        with open(data_base,"r") as csvfile:
             reader = csv.DictReader(csvfile)
             max_id = max(
                 int(row["id"]) for row in reader
@@ -26,7 +26,7 @@ def auto_id():
         return 1
 
 
-def write_animal_into_csv(register: AnimalBase):
+def write_animal_into_csv(register: AnimalID):
     with open(
         data_base, mode="a", newline=""
     ) as csvfile:

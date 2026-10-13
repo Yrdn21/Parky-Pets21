@@ -12,7 +12,7 @@ def create_animal(new_animal:AnimalBase):
     status = animal.create_animal(new_animal)
     ##animals_list.append(new_animal)
     if status:
-        return new_animal
+        return status
     else:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Animal not found")
 
