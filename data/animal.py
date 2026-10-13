@@ -14,6 +14,18 @@ column_fields = [
     "status"
 ]
 
+def auto_id():
+    try:
+        with open(data_base, mode="r") as csvfile:
+            reader = csv.DictReader(csvfile)
+            max_id = max(
+                int(row["id"]) for row in reader
+            )
+            return max_id + 1
+    except (FileNotFoundError, ValueError):
+        return 1
+
+
 def write_animal_into_csv(register: AnimalBase):
     with open(
         data_base, mode="a", newline=""
