@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class AliveStatus(Enum):
-    ALIVE = auto()
-    DEAD = auto()
-    SICK  = auto()
+class AliveStatus(str,Enum):
+    ALIVE = "Alive"
+    DEAD = "Dead"
+    SICK  = "Sick"
