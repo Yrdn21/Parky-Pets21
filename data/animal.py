@@ -1,5 +1,5 @@
 import csv
-from models.animal import AnimalBase
+from models.animal import AnimalBase, AnimalID
 from enums import *
 
 data_base = "animal.csv"
@@ -38,8 +38,14 @@ def write_animal_into_csv(register: AnimalBase):
 
 
 def create_animal(animal: AnimalBase):
-    write_animal_into_csv(animal)
-    return True
+    new_id = auto_id()
+    new_animal_ID = AnimalID(
+        id=new_id,
+        **animal.model_dump()
+    )
+
+    write_animal_into_csv(new_animal_ID)
+    return new_animal_ID
 
 def read_all_animals():
     with open(data_base) as csvfile:
