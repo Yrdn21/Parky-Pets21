@@ -14,3 +14,9 @@ def write_register_csv(register:ProductBase):
 def create_product_csv(new_product:ProductBase):
     write_register_csv(new_product)
     return True
+
+
+def read_all_products_csv():
+    with open(database) as csvfile:
+        reader = csv.DictReader(csvfile,column_fields)
+        return [ProductBase(**row) for row in reader]
