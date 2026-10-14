@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from models.product import ProductBase
-from data.product import create_product_csv, read_all_products_csv
+from data.product import create_product_csv, read_all_products_csv, read_one_product_csv
 
 router = APIRouter()
 
@@ -14,16 +14,20 @@ def create_product(new_product:ProductBase):
     return None
 
 
-#TODO
+
 @router.get("/", response_model=list[ProductBase])
 def show_all_products():
     return read_all_products_csv()
 
 
 #TODO
-@router.get("/{id}")
-def show_one_product():
-    pass
+@router.get("/{product_id}", response_model=ProductBase)
+def show_one_product(product_id:int):
+    one_product = read_one_product_csv(product_id)
+    if one_product:
+        return read_one_product_csv(product_id)
+    else:
+        raise HTTPException(status_code=404, detail="Product not found")
 
 
 #TODO

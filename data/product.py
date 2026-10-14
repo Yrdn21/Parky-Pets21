@@ -20,3 +20,14 @@ def read_all_products_csv():
     with open(database) as csvfile:
         reader = csv.DictReader(csvfile,column_fields)
         return [ProductBase(**row) for row in reader]
+
+
+
+def read_one_product_csv(id_product:int):
+    with open(database) as csvfile:
+        reader = csv.DictReader(csvfile,column_fields)
+        for row in reader:
+            if int(row["id"]) == id_product:
+                return ProductBase(**row)
+        return None
+
