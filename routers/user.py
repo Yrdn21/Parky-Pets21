@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, HTTPException
 from models.user import UserBase, UserUpdate
-from data.user import create_user_register
+from data.user import create_user_register, read_all_users_csv
 
 users_list:list[UserBase]=[]
 
@@ -26,10 +26,14 @@ def show_all_users():
     Show all users in the platform
     :return: List with whole users registered
     '''
-    if users_list:
-        return users_list
-    else:
+
+    all_users = read_all_users_csv()
+    if not all_users:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No users found")
+    else:
+        return all_users
+
+
 
 @router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserBase)
 def show_one_user(user_id: str):

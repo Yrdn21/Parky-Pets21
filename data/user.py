@@ -21,6 +21,10 @@ def create_user_register(new_user: UserBase):
     return True
 
 
+def read_all_users_csv():
+    with open(database) as csvfile:
+        reader = csv.DictReader(csvfile,column_fields)
+        return [UserBase(**row) for row in reader]
 
 
 
