@@ -37,4 +37,8 @@ def read_one_user_csv(user_id: int):
         return None
 
 
+def update_user_csv():
+    #readoneuser
+    #TODO implements the update user function
+    pass
 
