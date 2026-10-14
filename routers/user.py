@@ -1,5 +1,6 @@
 from fastapi import APIRouter, status, HTTPException
 from models.user import UserBase, UserUpdate
+from data.user import create_user_register
 
 users_list:list[UserBase]=[]
 
@@ -12,8 +13,11 @@ def create_user(new_user: UserBase):
     :param new_user:
     :return: OK, Created with status 201
     '''
-    users_list.append(new_user)
-    return {"New User Added": new_user}
+    #users_list.append(new_user)
+    #return {"New User Added": new_user}
+    create_user_register(new_user)
+    return new_user
+
 
 
 @router.get("/", status_code=status.HTTP_200_OK, response_model=list[UserBase])

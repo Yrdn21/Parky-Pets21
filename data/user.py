@@ -4,7 +4,7 @@ from models.user import UserBase
 
 database = "users.csv"
 
-column_fields = ["id", "firs_name", "last_name", "id_type", "id_number", "phone_number", "email"]
+column_fields = ["id", "first_name", "last_name", "id_type", "id_number", "phone_number", "email"]
 
 def write_into_csv(register: UserBase):
 
@@ -14,4 +14,14 @@ def write_into_csv(register: UserBase):
             column_fields,
         )
         writer.writerow(register.model_dump())
+    csvfile.close()
+
+def create_user_register(new_user: UserBase):
+    write_into_csv(new_user)
+    return True
+
+
+
+
+
 
