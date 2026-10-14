@@ -4,3 +4,4 @@ from routers import user
 app = FastAPI()
 
 app.include_router(router=user.router, prefix="/users", tags=["users"])
+app.include_router(router=user.router, prefix="/products", tags=["products"])
