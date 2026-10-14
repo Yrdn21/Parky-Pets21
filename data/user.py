@@ -27,5 +27,14 @@ def read_all_users_csv():
         return [UserBase(**row) for row in reader]
 
 
+def read_one_user_csv(user_id: int):
+    with open(database) as csvfile:
+        reader = csv.DictReader(csvfile,column_fields)
+
+        for row in reader:
+            if int(row["id"]) == user_id:
+                return UserBase(**row)
+        return None
+
 
 

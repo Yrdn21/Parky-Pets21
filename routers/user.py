@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, HTTPException
 from models.user import UserBase, UserUpdate
-from data.user import create_user_register, read_all_users_csv
+from data.user import create_user_register, read_all_users_csv, read_one_user_csv
 
 users_list:list[UserBase]=[]
 
@@ -36,21 +36,27 @@ def show_all_users():
 
 
 @router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserBase)
-def show_one_user(user_id: str):
+def show_one_user(user_id: int):
     '''
     Show one user in the platform
     :param user_id:
     :return: A user with the same ID registered
     '''
-    if not users_list:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No users found")
-    elif len(users_list)<user_id:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No users found for list size")
+    ##if not users_list:
+      #  raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No users found")
+    #elif len(users_list)<user_id:
+     #   raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No users found for list size")
+    #else:
+     #   for user in users_list:
+      #      if user.id == user_id:
+      #          return user
+      #  return "User not found"
+    one_user=read_one_user_csv(user_id)
+    if not one_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No user found")
     else:
-        for user in users_list:
-            if user.id == user_id:
-                return user
-        return "User not found"
+        return one_user
+
 
 
 @router.patch("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserBase)
