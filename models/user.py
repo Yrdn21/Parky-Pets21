@@ -3,7 +3,6 @@ from enums.id_type import IdType
 
 
 class UserBase(BaseModel):
-    id:int
     first_name: str
     last_name: str
     id_type: IdType
@@ -14,3 +13,6 @@ class UserBase(BaseModel):
 
 class UserUpdate(BaseModel):
     first_name: str
+
+class UserID(UserBase):
+    id: int

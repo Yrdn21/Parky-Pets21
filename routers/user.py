@@ -1,12 +1,12 @@
 from fastapi import APIRouter, status, HTTPException
-from models.user import UserBase, UserUpdate
+from models.user import UserBase, UserUpdate, UserID
 from data.user import create_user_register, read_all_users_csv, read_one_user_csv
 
 users_list:list[UserBase]=[]
 
 router = APIRouter()
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserID)
 def create_user(new_user: UserBase):
     '''
     Create a new user in the platform
@@ -15,12 +15,12 @@ def create_user(new_user: UserBase):
     '''
     #users_list.append(new_user)
     #return {"New User Added": new_user}
-    create_user_register(new_user)
-    return new_user
+
+    return create_user_register(new_user)
 
 
 
-@router.get("/", status_code=status.HTTP_200_OK, response_model=list[UserBase])
+@router.get("/", status_code=status.HTTP_200_OK, response_model=list[UserID])
 def show_all_users():
     '''
     Show all users in the platform
@@ -35,7 +35,7 @@ def show_all_users():
 
 
 
-@router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserBase)
+@router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserID)
 def show_one_user(user_id: int):
     '''
     Show one user in the platform

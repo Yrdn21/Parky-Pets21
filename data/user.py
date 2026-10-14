@@ -1,12 +1,11 @@
 import csv
-from models.user import UserBase
-
+from models.user import UserBase, UserID
 
 database = "users.csv"
 
 column_fields = ["id", "first_name", "last_name", "id_type", "id_number", "phone_number", "email"]
 
-def write_into_csv(register: UserBase):
+def write_into_csv(register: UserID):
 
     with open(database, "a", newline="") as csvfile:
         writer = csv.DictWriter(
@@ -16,15 +15,32 @@ def write_into_csv(register: UserBase):
         writer.writerow(register.model_dump())
     csvfile.close()
 
+def next_id():
+    try:
+        with open(database) as csvfile:
+            reader = csv.DictReader(csvfile,column_fields)
+            max_id = max(
+                int(row["id"]) for row in reader
+            )
+            return max_id+1
+    except (FileNotFoundError, ValueError):
+        return 1
+
+
+
+
 def create_user_register(new_user: UserBase):
-    write_into_csv(new_user)
-    return True
+    new_id = next_id()
+    new_user_id = UserID(id=new_id, **new_user.model_dump())
+
+    write_into_csv(new_user_id)
+    return new_user_id
 
 
 def read_all_users_csv():
     with open(database) as csvfile:
         reader = csv.DictReader(csvfile,column_fields)
-        return [UserBase(**row) for row in reader]
+        return [UserID(**row) for row in reader]
 
 
 def read_one_user_csv(user_id: int):
@@ -33,7 +49,7 @@ def read_one_user_csv(user_id: int):
 
         for row in reader:
             if int(row["id"]) == user_id:
-                return UserBase(**row)
+                return UserID(**row)
         return None
 
 
