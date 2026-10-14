@@ -1,12 +1,17 @@
 from fastapi import APIRouter
 
+from models.product import ProductBase
+from data.product import create_product_csv
+
 router = APIRouter()
 
 
 #TODO
 @router.post("/")
-def create_product():
-    pass
+def create_product(new_product:ProductBase):
+    if create_product_csv(new_product):
+        return {"Product":"Added"}
+    return None
 
 
 #TODO
