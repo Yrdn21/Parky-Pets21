@@ -17,7 +17,7 @@ column_fields = [
 def auto_id():
     try:
         with open(data_base,"r") as csvfile:
-            reader = csv.DictReader(csvfile)
+            reader = csv.DictReader(csvfile, column_fields)
             max_id = max(
                 int(row["id"]) for row in reader
             )
