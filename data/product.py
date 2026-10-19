@@ -1,5 +1,5 @@
 import csv
-from models.product import ProductBase
+from models.product import ProductBase, ProductID
 
 database = "products.csv"
 
@@ -8,28 +8,33 @@ column_fields = ["id", "name", "price", "category", "expiration_date"]
 def new_id():
     try:
         with open(database, "r") as csvfile:
-            reader = csv.DictReader(csvfile)
+            reader = csv.DictReader(csvfile,column_fields)
             max_id = max(int(row["id"]) for row in reader)
             return max_id+1
     except (FileNotFoundError, ValueError):
         return 1
 
 
-def write_register_csv(register:ProductBase):
+def write_register_csv(register:ProductID):
     with open(database, "a", newline="") as csvfile:
         writer = csv.DictWriter(csvfile,column_fields,)
         writer.writerow(register.model_dump())
         csvfile.close()
 
 def create_product_csv(new_product:ProductBase):
-    write_register_csv(new_product)
+    id = new_id()
+    new_product_id = ProductID(
+        id=id,
+        **new_product.model_dump()
+    )
+    write_register_csv(new_product_id)
     return True
 
 
 def read_all_products_csv():
     with open(database) as csvfile:
         reader = csv.DictReader(csvfile,column_fields)
-        return [ProductBase(**row) for row in reader]
+        return [ProductID(**row) for row in reader]
 
 
 

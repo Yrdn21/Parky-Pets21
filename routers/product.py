@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from models.product import ProductBase
+from models.product import ProductBase, ProductID
 from data.product import create_product_csv, read_all_products_csv, read_one_product_csv
 
 router = APIRouter()
@@ -15,7 +15,7 @@ def create_product(new_product:ProductBase):
 
 
 
-@router.get("/", response_model=list[ProductBase])
+@router.get("/", response_model=list[ProductID])
 def show_all_products():
     return read_all_products_csv()
 
