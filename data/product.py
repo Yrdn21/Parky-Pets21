@@ -5,6 +5,16 @@ database = "products.csv"
 
 column_fields = ["id", "name", "price", "category", "expiration_date"]
 
+def new_id():
+    try:
+        with open(database, "r") as csvfile:
+            reader = csv.DictReader(csvfile)
+            max_id = max(int(row["id"]) for row in reader)
+            return max_id+1
+    except (FileNotFoundError, ValueError):
+        return 1
+
+
 def write_register_csv(register:ProductBase):
     with open(database, "a", newline="") as csvfile:
         writer = csv.DictWriter(csvfile,column_fields,)
