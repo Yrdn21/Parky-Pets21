@@ -60,6 +60,14 @@ def read_one_animal_by_id(animal_id: str):
                 return AnimalBase(**row)
         return None
 
+def read_one_animal_by_name(animal_name: str):
+    with open(data_base) as csvfile:
+        reader = csv.DictReader(csvfile, fieldnames=column_fields)
+        for row in reader:
+            if row["name"] == animal_name:
+                return AnimalBase(**row)
+            return None
+
 
 
 
